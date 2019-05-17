@@ -15,6 +15,6 @@ deploy:
   cache-control: "max-age=31536000"
   local_dir: dist
   skip_cleanup: true
-  script: curl -u $DEPLOYER_USERNAME:$DEPLOYER_PASSWORD -d '{ "service":"@openmrs/devtools","url":"https://spa-modules.nyc3.digitaloceanspaces.com/devtools/"'$TRAVIS_COMMIT'"/devtools.js" }' -X PATCH https://$DEPLOYER_HOST/services\?env=$CI_ENVIRONMENT_NAME -H "Accept:application/json" -H "Content-Type:application/json"
+  script: curl -u $DEPLOYER_USERNAME:$DEPLOYER_PASSWORD -d '{ "service":"@openmrs/devtools","url":"https://spa-modules.nyc3.digitaloceanspaces.com/devtools/"'$TRAVIS_COMMIT'"/devtools.js" }' -X PATCH https://157.230.2.186/services\?env=prod -H "Accept:application/json" -H "Content-Type:application/json" --fail
   on:
     branch: master
