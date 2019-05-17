@@ -1,0 +1,23 @@
+{
+  "name": "openmrs-devtools",
+  "description": "Dev tools for frontend devs using OpenMRSS",
+  "scripts": {
+    "start": "webpack-dev-server --port",
+    "build": "webpack --mode production"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.3.1"
+  },
+  "dependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "single-spa-react": "^2.10.1"
+  }
+}
