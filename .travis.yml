@@ -1,12 +1,11 @@
 language: node_js
 node_js:
   - node
-build:
-  script:
-    - npm run build
-    - echo "Folder name in Digital Ocean Spaces - $TRAVIS_COMMIT"
-    - mkdir -p dist/devtools/$TRAVIS_COMMIT
-    - mv dist/*.* dist/devtools/$TRAVIS_COMMIT/
+script:
+  - npm run build
+  - echo "Folder name in Digital Ocean Spaces - $TRAVIS_COMMIT"
+  - mkdir -p dist/devtools/$TRAVIS_COMMIT
+  - mv dist/*.* dist/devtools/$TRAVIS_COMMIT/
 deploy:
   provider: s3
   access_key_id: "$DIGITAL_OCEAN_SPACES_KEY_ID"
@@ -16,3 +15,5 @@ deploy:
   cache-control: "max-age=31536000"
   local_dir: dist
   skip_cleanup: true
+  on:
+    branch: master
