@@ -5,7 +5,7 @@ export default class Root extends React.Component {
     catastrophicError: false
   }
   render() {
-    return this.state.catastrophicError ? null : <div>Hello world</div>
+    return this.state.catastrophicError ? null : <div>Hi</div>
   }
   componentDidCatch() {
     this.setState({catastrophicError: true})
