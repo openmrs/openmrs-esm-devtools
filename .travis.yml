@@ -16,6 +16,7 @@ deploy:
   local_dir: dist
   skip_cleanup: true
   acl: public_read
-  script: curl -u $DEPLOYER_USERNAME:$DEPLOYER_PASSWORD -d '{ "service":"@openmrs/devtools","url":"https://spa-modules.nyc3.digitaloceanspaces.com/devtools/'$TRAVIS_COMMIT'/devtools.js" }' -X PATCH http://157.230.2.186:5000/services\?env=prod -H "Accept:application/json" -H "Content-Type:application/json" --fail
   on:
     branch: master
+after_deploy:
+  - curl -u $DEPLOYER_USERNAME:$DEPLOYER_PASSWORD -d '{ "service":"@openmrs/devtools","url":"https://spa-modules.nyc3.digitaloceanspaces.com/devtools/'$TRAVIS_COMMIT'/devtools.js" }' -X PATCH http://157.230.2.186:5000/services\?env=prod -H "Accept:application/json" -H "Content-Type:application/json" --fail
