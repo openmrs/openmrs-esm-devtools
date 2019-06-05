@@ -2,7 +2,7 @@
   "name": "openmrs-devtools",
   "description": "Dev tools for frontend devs using OpenMRSS",
   "scripts": {
-    "start": "webpack-dev-server --port",
+    "start": "webpack-dev-server",
     "build": "webpack --mode production"
   },
   "devDependencies": {
