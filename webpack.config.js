@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = {
-  entry: path.resolve(__dirname, 'src/devtools.js'),
+  entry: path.resolve(__dirname, 'src/devtools.tsx'),
   output: {
     libraryTarget: 'system',
     filename: 'devtools.js',
@@ -10,7 +10,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.m?js$/,
+        test: /\.(m?js|ts|tsx)$/,
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: 'babel-loader',
@@ -29,4 +29,7 @@ module.exports = {
     },
     disableHostCheck: true,
   },
+  resolve: {
+    extensions: [".tsx", ".ts", ".jsx", ".js"]
+  }
 }
