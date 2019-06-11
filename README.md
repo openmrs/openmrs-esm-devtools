@@ -25,15 +25,8 @@ For this development workflow, after running `npm install` and `npm start -- --p
 `importMapOverrides.addOverride('@openmrs/devtools','https://localhost:<PORT>/devtools.js');`
 
 2. **Remote OpenMRS instance running behind HTTPS**
-This setup involves generating a root certificate locally as described in this [gist](https://gist.github.com/blittle/a9c74f43a5cec05cd6797b51f2f1b52d) and getting the remote instance to trust the generated certificate. After creating the root certificate as described in the gist above, you'll have two files: *key.pem* and *public.pem*
 
-If your browser doesn't trust the certificate, add an exception to allow invalid certificates for resources loaded from localhost.
-
-The next step is to create a bash [alias](https://davidwalsh.name/alias-bash) in order to start the webpack-dev-server with https. Add this line to your .bashrc:
-`alias npm-start-https='npm start -- --https --key=<PATH_TO_key.pem> --cert=<PATH_TO_cert.pem> --port`
-
-Then run:
-`source ~/.bashrc`
+For this setup, it is required to add an exception to allow invalid certificates for resources loaded from localhost. For Chrome browsers, make sure to enable the flag `chrome://flags/#allow-insecure-localhost`.
 
 And finally use the new alias:
-`npm-start-https <PORT>`
+`npm run start-https -- --port <PORT>`
