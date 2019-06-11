@@ -26,7 +26,7 @@ For this development workflow, after running `npm install` and `npm start -- --p
 
 2. **Remote OpenMRS instance running behind HTTPS**
 
-For this setup, it is required to add an exception to allow invalid certificates for resources loaded from localhost. For Chrome browsers, make sure to enable the flag `chrome://flags/#allow-insecure-localhost`.
+For this setup, it is required to add a browser exception to allow invalid certificates for resources loaded from localhost. For Chrome browsers, make sure to enable the flag `chrome://flags/#allow-insecure-localhost`. For Firefox, open the url `https://localhost:<PORT>` and add an exception for the certificate.
 
 And finally use the new alias:
 `npm run start-https -- --port <PORT>`
