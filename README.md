@@ -36,4 +36,4 @@ Then run:
 `source ~/.bashrc`
 
 And finally use the new alias:
-`npm-start-https <PATH>/key.pem <PATH>/public.pem <PORT>`
+`npm-start-https <PORT>`
