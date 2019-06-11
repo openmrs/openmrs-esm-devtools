@@ -8,6 +8,7 @@
     "prettier": "prettier --write **/*",
     "watch-tests": "jest --config jest.json --watch",
     "typescript": "tsc",
+    "start-https": "webpack-dev-server --https",
     "build": "webpack --mode production"
   },
   "husky": {
