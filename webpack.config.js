@@ -1,11 +1,12 @@
 const path = require("path");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const CleanWebpackPlugin = require("clean-webpack-plugin").CleanWebpackPlugin;
 
 module.exports = {
-  entry: path.resolve(__dirname, "src/devtools.tsx"),
+  entry: path.resolve(__dirname, "src/openmrs-esm-devtools.tsx"),
   output: {
     libraryTarget: "system",
-    filename: "devtools.js",
+    filename: "openmrs-esm-devtools.js",
     path: __dirname + "/dist"
   },
   module: {
@@ -34,5 +35,5 @@ module.exports = {
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"]
   },
-  plugins: [new ForkTsCheckerWebpackPlugin()]
+  plugins: [new ForkTsCheckerWebpackPlugin(), new CleanWebpackPlugin()]
 };
