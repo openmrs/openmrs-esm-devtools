@@ -1,5 +1,5 @@
 import React from "react";
-import { css } from "@emotion/core";
+import styles from "./import-map.styles.css";
 
 export default function ImportMap(props: ImportMapProps) {
   const importMapListRef = React.useRef<HTMLElement>(null);
@@ -21,12 +21,7 @@ export default function ImportMap(props: ImportMapProps) {
   }, [importMapListRef.current]);
 
   return (
-    <div
-      css={css`
-        width: 100%;
-        margin-top: 64px;
-      `}
-    >
+    <div className={styles.importMap}>
       <import-map-overrides-list
         ref={importMapListRef}
       ></import-map-overrides-list>
