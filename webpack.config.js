@@ -19,8 +19,20 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/i,
+        test: /node_modules\/.+\.css$/i,
         use: ["style-loader", "css-loader"]
+      },
+      {
+        test: /src\/.+\.css$/i,
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              modules: true
+            }
+          }
+        ]
       }
     ]
   },

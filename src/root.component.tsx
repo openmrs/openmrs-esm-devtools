@@ -1,21 +1,11 @@
 import React from "react";
 import Devtools from "./devtools/devtools.component";
+import openmrsRootDecorator from "@openmrs/react-root-decorator";
 
-export default class Root extends React.Component<RootProps, RootState> {
-  state = {
-    catastrophicError: false
-  };
-  render() {
-    return this.state.catastrophicError ? null : <Devtools />;
-  }
-  componentDidCatch() {
-    alert("@openmrs/devtools is dead. Whoops");
-    this.setState({ catastrophicError: true });
-  }
+function Root(props) {
+  return <Devtools {...props} />;
 }
 
-type RootProps = {};
+export default openmrsRootDecorator({ featureName: "devtools" })(Root);
 
-type RootState = {
-  catastrophicError: boolean;
-};
+type RootProps = {};
