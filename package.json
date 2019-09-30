@@ -30,6 +30,7 @@
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
+    "@types/semver": "^6.0.2",
     "babel-eslint": "^11.0.0-beta.0",
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.5",
@@ -56,6 +57,7 @@
     "webpack-dev-server": "^3.8.0"
   },
   "dependencies": {
+    "@openmrs/esm-api": "^1.0.3",
     "@openmrs/react-root-decorator": "^1.0.0",
     "@reach/tabs": "^0.1.6",
     "@types/jest": "^24.0.18",
@@ -66,6 +68,8 @@
     "kremling": "^2.0.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "single-spa-react": "^2.10.2"
+    "semver": "^6.3.0",
+    "single-spa-react": "^2.10.2",
+    "systemjs": "^6.1.2"
   }
 }
