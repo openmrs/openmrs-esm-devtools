@@ -14,7 +14,6 @@
       "es2016.array.include",
       "es2018"
     ],
-    "strictNullChecks": true,
     "noEmit": true,
     "resolveJsonModule": true
   },
