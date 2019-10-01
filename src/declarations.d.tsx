@@ -8,3 +8,5 @@ declare module "*.css" {
   const styles: any;
   export default styles;
 }
+
+declare var System: any;

@@ -12,6 +12,11 @@ module.exports = {
   module: {
     rules: [
       {
+        parser: {
+          system: false
+        }
+      },
+      {
         test: /\.(m?js|ts|tsx)$/,
         exclude: /(node_modules|bower_components)/,
         use: {
@@ -36,7 +41,7 @@ module.exports = {
       }
     ]
   },
-  externals: ["react", "react-dom"],
+  externals: ["react", "react-dom", /^@openmrs\/esm/],
   devtool: "sourcemap",
   devServer: {
     headers: {
