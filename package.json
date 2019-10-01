@@ -2,7 +2,7 @@
   "name": "@openmrs/esm-devtools",
   "description": "Dev tools for frontend devs using OpenMRSS",
   "main": "dist/openmrs-esm-devtools.js",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "scripts": {
     "start": "webpack-dev-server",
     "lint": "eslint . --ext tsx",
