@@ -4,16 +4,45 @@ import { difference, isEmpty } from "lodash-es";
 
 var installedBackendModules: any[] = [];
 
-function fetchInstalledBackendModules() {
-  return openmrsFetch(`/ws/rest/v1/module?v=custom:(uuid,version)`, {
-    method: "GET"
-  });
+const originalOnload = System.constructor.prototype.onload;
+
+System.constructor.prototype.onload = function(err, id, deps) {
+  if (!err) {
+    System.import(id).then(module => {
+      console.log(module);
+      if (module.backendDependencies) {
+        checkBackendDeps(module.backendDependencies);
+      }
+    });
+  }
+  return originalOnload.apply(this, arguments);
+};
+
+function checkBackendDeps(backendModules: any) {
+  if (!isEmpty(installedBackendModules)) {
+    fetchInstalledBackendModules().then(({ data }) => {
+      installedBackendModules = data.results;
+      checkIfModulesAreInstalled(backendModules);
+    });
+  } else {
+    checkIfModulesAreInstalled(backendModules);
+  }
 }
 
-function isVersionInstalled(requiredVersion, installedVersion) {
-  return semver.eq(
-    semver.coerce(requiredVersion),
-    semver.coerce(installedVersion)
+function checkIfModulesAreInstalled(requiredBackendModules) {
+  const missingOpenmrsBackendModules = getMissingBackendModules(
+    requiredBackendModules
+  );
+  const modulesWithWrongVersionInstalled = getMismatchedVersions(
+    requiredBackendModules
+  );
+  console.error(
+    "The following backend modules are required!",
+    missingOpenmrsBackendModules
+  );
+  console.error(
+    "The following backend modules versions are required",
+    modulesWithWrongVersionInstalled
   );
 }
 
@@ -43,46 +72,18 @@ function getMismatchedVersions(requiredBackendModules) {
   return mismatchedModuleVersions;
 }
 
-function checkIfModulesAreInstalled(requiredBackendModules) {
-  const missingOpenmrsBackendModules = getMissingBackendModules(
-    requiredBackendModules
-  );
-  const modulesWithWrongVersionInstalled = getMismatchedVersions(
-    requiredBackendModules
-  );
-  console.error(
-    "The following backend modules are required!",
-    missingOpenmrsBackendModules
-  );
-  console.error(
-    "The following backend modules versions are required",
-    modulesWithWrongVersionInstalled
-  );
+function fetchInstalledBackendModules() {
+  return openmrsFetch(`/ws/rest/v1/module?v=custom:(uuid,version)`, {
+    method: "GET"
+  });
 }
 
-function checkBackendDeps(backendModules: any) {
-  if (!isEmpty(installedBackendModules)) {
-    fetchInstalledBackendModules().then(({ data }) => {
-      installedBackendModules = data.results;
-      checkIfModulesAreInstalled(backendModules);
-    });
-  } else {
-    checkIfModulesAreInstalled(backendModules);
-  }
+function isVersionInstalled(requiredVersion, installedVersion) {
+  return semver.eq(
+    semver.coerce(requiredVersion),
+    semver.coerce(installedVersion)
+  );
 }
-const originalOnload = System.constructor.prototype.onload;
-
-System.constructor.prototype.onload = function(err, id, deps) {
-  if (!err) {
-    System.import(id).then(module => {
-      console.log(module);
-      if (module.backendDependencies) {
-        checkBackendDeps(module.backendDependencies);
-      }
-    });
-  }
-  return originalOnload.apply(this, arguments);
-};
 
 type MismatchedModuleVersion = {
   uuid: string;
