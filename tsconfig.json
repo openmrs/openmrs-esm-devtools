@@ -14,8 +14,8 @@
       "es2016.array.include",
       "es2018"
     ],
-    "noEmit": true,
-    "resolveJsonModule": true
+    "strictNullChecks": true,
+    "noEmit": true
   },
   "include": ["src/**/*"]
 }

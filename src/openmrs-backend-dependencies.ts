@@ -7,43 +7,51 @@ var installedBackendModules: any[] = [];
 const originalOnload = System.constructor.prototype.onload;
 
 System.constructor.prototype.onload = function(err, id, deps) {
+  const moduleName = id.substring(id.lastIndexOf("/") + 1, id.indexOf(".js"));
   if (!err) {
-    System.import(id).then(module => {
-      console.log(module);
+    System.import(id).then(response => {
+      const module = Object.assign({ moduleName }, response);
       if (module.backendDependencies) {
-        checkBackendDeps(module.backendDependencies);
+        checkBackendDeps(module);
       }
     });
   }
   return originalOnload.apply(this, arguments);
 };
 
-function checkBackendDeps(backendModules: any) {
-  if (!isEmpty(installedBackendModules)) {
+function checkBackendDeps(module: any) {
+  if (isEmpty(installedBackendModules)) {
     fetchInstalledBackendModules().then(({ data }) => {
       installedBackendModules = data.results;
-      checkIfModulesAreInstalled(backendModules);
+      checkIfModulesAreInstalled(module);
     });
   } else {
-    checkIfModulesAreInstalled(backendModules);
+    checkIfModulesAreInstalled(module);
   }
 }
 
-function checkIfModulesAreInstalled(requiredBackendModules) {
+function checkIfModulesAreInstalled(module) {
+  const requiredBackendModules = module.backendDependencies;
   const missingOpenmrsBackendModules = getMissingBackendModules(
     requiredBackendModules
   );
   const modulesWithWrongVersionInstalled = getMismatchedVersions(
     requiredBackendModules
   );
-  console.error(
-    "The following backend modules are required!",
-    missingOpenmrsBackendModules
-  );
-  console.error(
-    "The following backend modules versions are required",
-    modulesWithWrongVersionInstalled
-  );
+
+  //TODO: replace this with tab on devtools ui
+  if (!isEmpty(missingOpenmrsBackendModules)) {
+    console.error(
+      `${module.moduleName} requires the following backend modules:`,
+      missingOpenmrsBackendModules
+    );
+  }
+  if (!isEmpty(modulesWithWrongVersionInstalled)) {
+    console.error(
+      `${module.moduleName} requires the following backend module versions:`,
+      modulesWithWrongVersionInstalled
+    );
+  }
 }
 
 function getMissingBackendModules(requiredBackendModules) {
