@@ -9,22 +9,34 @@ const originalOnload = System.constructor.prototype.onload;
 System.constructor.prototype.onload = function(err, id, deps) {
   const moduleName = id.substring(id.lastIndexOf("/") + 1, id.indexOf(".js"));
   if (!err) {
-    System.import(id).then(response => {
-      const module = Object.assign({ moduleName }, response);
-      if (module.backendDependencies) {
-        checkBackendDeps(module);
-      }
-    });
+    System.import(id)
+      .then(response => {
+        const module = Object.assign({ moduleName }, response);
+        if (module.backendDependencies) {
+          checkBackendDeps(module);
+        }
+      })
+      .catch(err => {
+        setTimeout(() => {
+          throw err;
+        });
+      });
   }
   return originalOnload.apply(this, arguments);
 };
 
 function checkBackendDeps(module: any) {
   if (isEmpty(installedBackendModules)) {
-    fetchInstalledBackendModules().then(({ data }) => {
-      installedBackendModules = data.results;
-      checkIfModulesAreInstalled(module);
-    });
+    fetchInstalledBackendModules()
+      .then(({ data }) => {
+        installedBackendModules = data.results;
+        checkIfModulesAreInstalled(module);
+      })
+      .catch(err => {
+        setTimeout(() => {
+          throw err;
+        });
+      });
   } else {
     checkIfModulesAreInstalled(module);
   }
