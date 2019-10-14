@@ -2,7 +2,9 @@ import { openmrsFetch } from "@openmrs/esm-api";
 import * as semver from "semver";
 import { difference, isEmpty } from "lodash-es";
 
-var installedBackendModules: any[] = [];
+let installedBackendModules: any[] = [];
+let modulesWithMissingBackendModules: MissingBackendModules[] = [];
+let modulesWithWrongBackendModulesVersion: any[] = [];
 
 const originalOnload = System.constructor.prototype.onload;
 
@@ -43,27 +45,30 @@ function checkBackendDeps(module: any) {
 }
 
 function checkIfModulesAreInstalled(module) {
-  const requiredBackendModules = module.backendDependencies;
-  const missingOpenmrsBackendModules = getMissingBackendModules(
-    requiredBackendModules
+  let missingBackendModule = getMissingBackendModules(
+    module.backendDependencies
   );
-  const modulesWithWrongVersionInstalled = getMismatchedVersions(
-    requiredBackendModules
+  let installedAndRequiredModules = getInstalledAndRequiredBackendModules(
+    module.backendDependencies
   );
+  if (missingBackendModule.length > 0) {
+    modulesWithMissingBackendModules.push({
+      moduleName: module.moduleName,
+      backendModules: missingBackendModule
+    });
+  }
+  if (installedAndRequiredModules.length > 0) {
+    modulesWithWrongBackendModulesVersion.push({
+      moduleName: module.moduleName,
+      backendModules: getMisMatchedBackendModules(installedAndRequiredModules)
+    });
+  }
+}
 
-  //TODO: replace this with tab on devtools ui
-  if (!isEmpty(missingOpenmrsBackendModules)) {
-    console.error(
-      `${module.moduleName} requires the following backend modules:`,
-      missingOpenmrsBackendModules
-    );
-  }
-  if (!isEmpty(modulesWithWrongVersionInstalled)) {
-    console.error(
-      `${module.moduleName} requires the following backend module versions:`,
-      modulesWithWrongVersionInstalled
-    );
-  }
+function fetchInstalledBackendModules() {
+  return openmrsFetch(`/ws/rest/v1/module?v=custom:(uuid,version)`, {
+    method: "GET"
+  });
 }
 
 function getMissingBackendModules(requiredBackendModules) {
@@ -71,31 +76,45 @@ function getMissingBackendModules(requiredBackendModules) {
   const installedBackendModuleUuids = installedBackendModules.map(
     res => res.uuid
   );
-  return difference(requiredBackendModulesUuids, installedBackendModuleUuids);
+  let missingModules = difference(
+    requiredBackendModulesUuids,
+    installedBackendModuleUuids
+  );
+  return missingModules.map(key => {
+    return { uuid: key, version: requiredBackendModules[key] };
+  });
 }
 
-function getMismatchedVersions(requiredBackendModules) {
-  const mismatchedModuleVersions: MismatchedModuleVersion[] = [];
-  for (let uuid in requiredBackendModules) {
-    const requiredVersion = requiredBackendModules[uuid];
-    const installedVersion = installedBackendModules.find(
-      module => module.uuid === uuid
-    )["version"];
+function getInstalledAndRequiredBackendModules(requiredBackendModules) {
+  let requiredModules = Object.keys(requiredBackendModules).map(key => {
+    return { uuid: key, version: requiredBackendModules[key] };
+  });
+  let installedAndRequiredBackendModules = requiredModules.filter(
+    requiredModule => {
+      return installedBackendModules.find(installedModule => {
+        return requiredModule.uuid === installedModule.uuid;
+      });
+    }
+  );
+  return installedAndRequiredBackendModules;
+}
+
+function getMisMatchedBackendModules(installedAndRequiredBackendModules) {
+  let misMatchedBackendModules: MisMatchingModules[] = [];
+  for (let uuid in installedAndRequiredBackendModules) {
+    const installedVersion = installedBackendModules[uuid].version;
+    const requiredVersion = installedAndRequiredBackendModules[uuid].version;
+    const moduleName = installedAndRequiredBackendModules[uuid].uuid;
+
     if (!isVersionInstalled(requiredVersion, installedVersion)) {
-      mismatchedModuleVersions.push({
-        uuid,
-        requiredVersion,
-        installedVersion
+      misMatchedBackendModules.push({
+        uuid: moduleName,
+        requiredVersion: requiredVersion,
+        installedVersion: installedVersion
       });
     }
   }
-  return mismatchedModuleVersions;
-}
-
-function fetchInstalledBackendModules() {
-  return openmrsFetch(`/ws/rest/v1/module?v=custom:(uuid,version)`, {
-    method: "GET"
-  });
+  return misMatchedBackendModules;
 }
 
 function isVersionInstalled(requiredVersion, installedVersion) {
@@ -105,8 +124,22 @@ function isVersionInstalled(requiredVersion, installedVersion) {
   );
 }
 
-type MismatchedModuleVersion = {
+interface BackendModule {
   uuid: string;
-  requiredVersion: string;
+  version: string;
+}
+
+interface MisMatchingModules {
+  uuid: string;
   installedVersion: string;
+  requiredVersion: string;
+}
+interface MissingBackendModules {
+  moduleName: string;
+  backendModules: BackendModule[];
+}
+
+export {
+  modulesWithMissingBackendModules,
+  modulesWithWrongBackendModulesVersion
 };
