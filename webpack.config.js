@@ -7,7 +7,8 @@ module.exports = {
   output: {
     libraryTarget: "system",
     filename: "openmrs-esm-devtools.js",
-    path: __dirname + "/dist"
+    path: __dirname + "/dist",
+    jsonpFunction: "webpackJsonp_openmrs_esm_devtools"
   },
   module: {
     rules: [
