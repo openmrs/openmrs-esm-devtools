@@ -6,7 +6,7 @@ import { importMapOverridden } from "./import-map.component";
 
 export default function Root(props) {
   const [devToolsOpen, setDevToolsOpen] = useState(false);
-  const [isOverridden, setIsOverridden] = useState(importMapOverridden());
+  const [isOverridden, setIsOverridden] = useState(importMapOverridden);
 
   return (
     <>
