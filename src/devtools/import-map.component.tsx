@@ -16,7 +16,7 @@ export default function ImportMap(props: ImportMapProps) {
       );
 
     function handleImportMapChange(evt) {
-      props.toggleOverridden((window as any).importMapOverrides.hasOverrides());
+      props.toggleOverridden(importMapOverridden());
     }
   }, [importMapListRef.current]);
 
@@ -26,6 +26,14 @@ export default function ImportMap(props: ImportMapProps) {
         ref={importMapListRef}
       ></import-map-overrides-list>
     </div>
+  );
+}
+
+export function importMapOverridden(): boolean {
+  return (
+    Object.keys(
+      (window as any).importMapOverrides.getOverrideMap().imports
+    ).filter(k => k !== "react" && k !== "react-dom").length > 0
   );
 }
 

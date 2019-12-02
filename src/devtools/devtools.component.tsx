@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import DevToolsPopup from "./devtools-popup.component";
 import styles from "./devtools.styles.css";
 import { a, m } from "kremling";
+import { importMapOverridden } from "./import-map.component";
 
 export default function Root(props) {
   const [devToolsOpen, setDevToolsOpen] = useState(false);
-  const [isOverridden, setIsOverridden] = useState(
-    (window as any).importMapOverrides.hasOverrides
-  );
+  const [isOverridden, setIsOverridden] = useState(importMapOverridden);
 
   return (
     <>
