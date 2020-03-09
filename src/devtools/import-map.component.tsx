@@ -37,6 +37,12 @@ export function importMapOverridden(): boolean {
   );
 }
 
+export function isOverriddenInImportMap(esmName: string): boolean {
+  return (window as any).importMapOverrides
+    .getOverrideMap()
+    .imports.hasOwnProperty(esmName);
+}
+
 type ImportMapProps = {
   toggleOverridden(overridden: boolean): void;
 };
