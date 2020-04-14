@@ -8,25 +8,25 @@ module.exports = {
     libraryTarget: "system",
     filename: "openmrs-esm-devtools.js",
     path: __dirname + "/dist",
-    jsonpFunction: "webpackJsonp_openmrs_esm_devtools"
+    jsonpFunction: "webpackJsonp_openmrs_esm_devtools",
   },
   module: {
     rules: [
       {
         parser: {
-          system: false
-        }
+          system: false,
+        },
       },
       {
         test: /\.(m?js|ts|tsx)$/,
         exclude: /(node_modules|bower_components)/,
         use: {
-          loader: "babel-loader"
-        }
+          loader: "babel-loader",
+        },
       },
       {
         test: /node_modules\/.+\.css$/i,
-        use: ["style-loader", "css-loader"]
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /src\/.+\.css$/i,
@@ -35,23 +35,29 @@ module.exports = {
           {
             loader: "css-loader",
             options: {
-              modules: true
-            }
-          }
-        ]
-      }
-    ]
+              modules: true,
+            },
+          },
+        ],
+      },
+    ],
   },
-  externals: ["react", "react-dom", /^@openmrs\/esm/],
+  externals: [
+    "react",
+    "react-dom",
+    /^@openmrs\/esm/,
+    "i18next",
+    "react-i18next",
+  ],
   devtool: "sourcemap",
   devServer: {
     headers: {
-      "Access-Control-Allow-Origin": "*"
+      "Access-Control-Allow-Origin": "*",
     },
-    disableHostCheck: true
+    disableHostCheck: true,
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".jsx", ".js"]
+    extensions: [".tsx", ".ts", ".jsx", ".js"],
   },
-  plugins: [new ForkTsCheckerWebpackPlugin(), new CleanWebpackPlugin()]
+  plugins: [new ForkTsCheckerWebpackPlugin(), new CleanWebpackPlugin()],
 };
