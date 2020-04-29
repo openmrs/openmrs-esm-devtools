@@ -8,7 +8,7 @@ function Configuration(props: ConfigurationProps) {
   const [config, setConfig] = React.useState({});
 
   React.useEffect(() => {
-    getDevtoolsConfig().then(res => setConfig(res));
+    getDevtoolsConfig().then((res) => setConfig(res));
   }, []);
 
   const configString = JSON.stringify(config, null, 2);

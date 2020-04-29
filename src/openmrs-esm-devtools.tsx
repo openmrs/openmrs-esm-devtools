@@ -8,7 +8,7 @@ import singleSpaReact from "single-spa-react";
 const reactLifecycles = singleSpaReact({
   React,
   ReactDOM,
-  rootComponent: Root
+  rootComponent: Root,
 });
 
 export const bootstrap = reactLifecycles.bootstrap;

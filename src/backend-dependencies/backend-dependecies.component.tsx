@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import {
   modulesWithMissingBackendModules,
-  modulesWithWrongBackendModulesVersion
+  modulesWithWrongBackendModulesVersion,
 } from "../openmrs-backend-dependencies";
 import styles from "../devtools/import-map.styles.css";
 import backendStyles from "./backend-dependencies-style.css";
@@ -15,7 +15,7 @@ export default function BackendModule(props: BackendModulesProps) {
 
         <table className={backendStyles.backendtable}>
           <tbody>
-            {Object.keys(modulesWithMissingBackendModules).map(key => {
+            {Object.keys(modulesWithMissingBackendModules).map((key) => {
               return (
                 <Fragment key={key}>
                   {modulesWithMissingBackendModules[key].backendModules.length >
@@ -57,7 +57,7 @@ export default function BackendModule(props: BackendModulesProps) {
         <h4>Modules with wrong versions installed</h4>
         <table className={backendStyles.backendtable}>
           <tbody>
-            {Object.keys(modulesWithWrongBackendModulesVersion).map(key => {
+            {Object.keys(modulesWithWrongBackendModulesVersion).map((key) => {
               return (
                 <Fragment key={key}>
                   {modulesWithWrongBackendModulesVersion[key].backendModules

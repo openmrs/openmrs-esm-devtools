@@ -1,4 +1,7 @@
 {
+  "transform": {
+    "\\.tsx?$": "babel-jest"
+  },
   "setupFiles": ["<rootDir>/src/setup-tests.tsx"],
   "moduleNameMapper": {
     "\\.css$": "<rootDir>/__mocks__/css-mock.tsx",

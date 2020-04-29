@@ -8,17 +8,17 @@ let modulesWithWrongBackendModulesVersion: any[] = [];
 
 const originalOnload = System.constructor.prototype.onload;
 
-System.constructor.prototype.onload = function(err, id, deps) {
+System.constructor.prototype.onload = function (err, id, deps) {
   const moduleName = id.substring(id.lastIndexOf("/") + 1, id.indexOf(".js"));
   if (!err) {
     System.import(id)
-      .then(response => {
+      .then((response) => {
         const module = Object.assign({ moduleName }, response);
         if (module.backendDependencies) {
           checkBackendDeps(module);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         setTimeout(() => {
           throw err;
         });
@@ -34,7 +34,7 @@ function checkBackendDeps(module: any) {
         installedBackendModules = data.results;
         checkIfModulesAreInstalled(module);
       })
-      .catch(err => {
+      .catch((err) => {
         setTimeout(() => {
           throw err;
         });
@@ -54,44 +54,44 @@ function checkIfModulesAreInstalled(module) {
   if (missingBackendModule.length > 0) {
     modulesWithMissingBackendModules.push({
       moduleName: module.moduleName,
-      backendModules: missingBackendModule
+      backendModules: missingBackendModule,
     });
   }
   if (installedAndRequiredModules.length > 0) {
     modulesWithWrongBackendModulesVersion.push({
       moduleName: module.moduleName,
-      backendModules: getMisMatchedBackendModules(installedAndRequiredModules)
+      backendModules: getMisMatchedBackendModules(installedAndRequiredModules),
     });
   }
 }
 
 function fetchInstalledBackendModules() {
   return openmrsFetch(`/ws/rest/v1/module?v=custom:(uuid,version)`, {
-    method: "GET"
+    method: "GET",
   });
 }
 
 function getMissingBackendModules(requiredBackendModules) {
   const requiredBackendModulesUuids = Object.keys(requiredBackendModules);
   const installedBackendModuleUuids = installedBackendModules.map(
-    res => res.uuid
+    (res) => res.uuid
   );
   let missingModules = difference(
     requiredBackendModulesUuids,
     installedBackendModuleUuids
   );
-  return missingModules.map(key => {
+  return missingModules.map((key) => {
     return { uuid: key, version: requiredBackendModules[key] };
   });
 }
 
 function getInstalledAndRequiredBackendModules(requiredBackendModules) {
-  let requiredModules = Object.keys(requiredBackendModules).map(key => {
+  let requiredModules = Object.keys(requiredBackendModules).map((key) => {
     return { uuid: key, version: requiredBackendModules[key] };
   });
   let installedAndRequiredBackendModules = requiredModules.filter(
-    requiredModule => {
-      return installedBackendModules.find(installedModule => {
+    (requiredModule) => {
+      return installedBackendModules.find((installedModule) => {
         return requiredModule.uuid === installedModule.uuid;
       });
     }
@@ -110,7 +110,7 @@ function getMisMatchedBackendModules(installedAndRequiredBackendModules) {
       misMatchedBackendModules.push({
         uuid: moduleName,
         requiredVersion: requiredVersion,
-        installedVersion: installedVersion
+        installedVersion: installedVersion,
       });
     }
   }
@@ -141,5 +141,5 @@ interface MissingBackendModules {
 
 export {
   modulesWithMissingBackendModules,
-  modulesWithWrongBackendModulesVersion
+  modulesWithWrongBackendModulesVersion,
 };
