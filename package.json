@@ -63,7 +63,7 @@
     "pretty-quick": "^1.11.1",
     "semver": "^6.3.0",
     "single-spa-react": "^2.10.2",
-    "style-loader": "^1.0.0",
+    "style-loader": "^1.1.4",
     "systemjs-webpack-interop": "^1.1.0",
     "typescript": "^3.5.3",
     "webpack": "^4.39.2",
