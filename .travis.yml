@@ -22,4 +22,6 @@ deploy:
   on:
     branch: master
 after_deploy:
-  - curl -u $DEPLOYER_USERNAME:$DEPLOYER_PASSWORD -d '{ "service":"@openmrs/esm-devtools","url":"https://spa-modules.nyc3.digitaloceanspaces.com/@openmrs/esm-devtools/'$TRAVIS_COMMIT'/openmrs-esm-devtools.js" }' -X PATCH $DEPLOYER_HOST/services\?env=prod -H "Accept:application/json" -H "Content-Type:application/json" --fail
+  - statuscode=$(curl --output /dev/null --write-out %{http_code} -u $DEPLOYER_USERNAME:$DEPLOYER_PASSWORD -d '{ "service":"@openmrs/esm-devtools","url":"https://spa-modules.nyc3.digitaloceanspaces.com/@openmrs/esm-devtools/'$TRAVIS_COMMIT'/openmrs-esm-devtools.js" }' -X PATCH $DEPLOYER_HOST/services\?env=prod -H "Accept:application/json" -H "Content-Type:application/json")
+  - echo "Deployment Status Code --> ${statuscode}"
+  - if [ "$statuscode" -ne 200 ]; then travis_terminate "$statuscode"; fi
