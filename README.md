@@ -30,7 +30,7 @@ that creates a gray or red rectangular button near the bottom right of the
 screen. The rectangular button will only show up if you run the following 
 command in the browser console:
 
-```
+```js
 localStorage.setItem('openmrs:devtools', true)
 ```
 
