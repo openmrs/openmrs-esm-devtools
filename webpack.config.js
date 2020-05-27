@@ -1,13 +1,13 @@
 const path = require("path");
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin").CleanWebpackPlugin;
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 module.exports = {
-  entry: path.resolve(__dirname, "src/openmrs-esm-devtools.tsx"),
+  entry: path.resolve(__dirname, "src/index.ts"),
   output: {
-    libraryTarget: "system",
     filename: "openmrs-esm-devtools.js",
-    path: __dirname + "/dist",
+    libraryTarget: "system",
+    path: path.resolve(__dirname, "dist"),
     jsonpFunction: "webpackJsonp_openmrs_esm_devtools",
   },
   module: {
@@ -42,13 +42,6 @@ module.exports = {
       },
     ],
   },
-  externals: [
-    "react",
-    "react-dom",
-    /^@openmrs\/esm/,
-    "i18next",
-    "react-i18next",
-  ],
   devtool: "sourcemap",
   devServer: {
     headers: {
@@ -56,8 +49,17 @@ module.exports = {
     },
     disableHostCheck: true,
   },
+  externals: [
+    /^@openmrs\/esm.*/,
+    "i18next",
+    "single-spa",
+    "react",
+    "react-dom",
+    "react-i18next",
+    "react-router-dom",
+  ],
+  plugins: [new ForkTsCheckerWebpackPlugin(), new CleanWebpackPlugin()],
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"],
   },
-  plugins: [new ForkTsCheckerWebpackPlugin(), new CleanWebpackPlugin()],
 };
