@@ -11,7 +11,7 @@ function Root(props) {
 
 export default openmrsRootDecorator({
   featureName: "devtools",
-  moduleName: "@openmrs/esm-devtools",
+  moduleName: "@openmrs/esm-devtools-app",
 })(Root);
 
 type RootProps = {};
