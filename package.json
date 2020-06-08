@@ -1,5 +1,5 @@
 {
-  "name": "@openmrs/esm-devtools",
+  "name": "@openmrs/esm-devtools-app",
   "description": "Dev tools for frontend devs using OpenMRS",
   "main": "dist/openmrs-esm-devtools.js",
   "version": "1.2.0",
