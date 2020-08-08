@@ -1,17 +1,18 @@
 import React from "react";
-import "./switch.styles.css";
+import styles from "./switch.styles.css";
 
 const Switch = (props) => {
   return (
     <>
       <input
-        className="switch-checkbox"
+        className={styles.switchCheckbox}
         id="switch-input"
         type="checkbox"
-        onChange={this.onChange}
+        checked={props.checked}
+        onChange={props.onChange}
       />
-      <label className="switch-label" htmlFor={`switch-input`}>
-        <span className={`switch-button`} />
+      <label className={styles.switchLabel} htmlFor="switch-input">
+        <span className={styles.switchButton} />
       </label>
     </>
   );

@@ -1,2 +1,11 @@
 .tools {
+  margin: -1.5em -1.5em 0 -1.5em;
+  padding: 0.5em 1.5em;
+  border-top: #888 solid 1px;
+  border-bottom: #888 solid 1px;
+}
+
+.switch {
+  display: flex;
+  align-items: center;
 }
