@@ -1,11 +1,19 @@
 import React from "react";
-import { getDevtoolsConfig } from "@openmrs/esm-module-config";
+import {
+  getDevtoolsConfig,
+  getAreDevDefaultsOn,
+  setAreDevDefaultsOn,
+} from "@openmrs/esm-module-config";
 import { isOverriddenInImportMap } from "../devtools/import-map.component";
-
-import styles from "../devtools/import-map.styles.css";
+import Switch from "./switch.component";
+import importMapStyles from "../devtools/import-map.styles.css";
+import styles from "./configuration.styles.css";
 
 function Configuration(props: ConfigurationProps) {
   const [config, setConfig] = React.useState({});
+  const [isDevConfigActive, setIsDevConfigActive] = React.useState(
+    getAreDevDefaultsOn()
+  );
 
   React.useEffect(() => {
     getDevtoolsConfig().then((res) => setConfig(res));
@@ -14,10 +22,24 @@ function Configuration(props: ConfigurationProps) {
   const configString = JSON.stringify(config, null, 2);
 
   return (
-    <div className={styles.importMap}>
-      <pre>
-        <code>{configString}</code>
-      </pre>
+    <div className={importMapStyles.importMap}>
+      <div className={styles.tools}>
+        <div className={styles.switch}>
+          <Switch
+            checked={isDevConfigActive}
+            onChange={() => {
+              setAreDevDefaultsOn(!isDevConfigActive);
+              setIsDevConfigActive(!isDevConfigActive);
+            }}
+          />
+          <div className="omrs-margin-left-12">Dev Config</div>
+        </div>
+      </div>
+      <div>
+        <pre>
+          <code>{configString}</code>
+        </pre>
+      </div>
     </div>
   );
 }
