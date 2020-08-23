@@ -1,34 +1,11 @@
 import React from "react";
-import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import ImportMap from "./import-map.component";
-import "@reach/tabs/styles.css";
 import styles from "./devtools-popup.styles.css";
-import BackendModule from "../backend-dependencies/backend-dependecies.component";
-import Configuration from "../configuration/configuration.component";
 
 export default function DevToolsPopup(props: DevToolsPopupProps) {
   return (
     <div className={styles.popup}>
-      <Tabs className={styles.tabs}>
-        <TabList className={styles.tabList}>
-          <Tab>Import Map</Tab>
-          <Tab>Configuration</Tab>
-          <Tab>Backend Modules</Tab>
-        </TabList>
-        <TabPanels className={styles.tabPanels}>
-          <TabPanel>
-            <ImportMap toggleOverridden={props.toggleOverridden} />
-          </TabPanel>
-          <TabPanel>
-            <React.Suspense fallback="">
-              <Configuration toggleOverridden={props.toggleOverridden} />
-            </React.Suspense>
-          </TabPanel>
-          <TabPanel>
-            <BackendModule toggleOverridden={props.toggleOverridden} />
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+      <ImportMap toggleOverridden={props.toggleOverridden} />
       <div className={styles.farRight}>
         <button onClick={props.close} className="omrs-unstyled">
           {"\u24e7"}
