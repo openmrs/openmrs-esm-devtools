@@ -7,4 +7,6 @@ function setupOpenMRS() {
   };
 }
 
-export { setupOpenMRS };
+const importTranslation = () => Promise.resolve();
+
+export { importTranslation, setupOpenMRS };
