@@ -31,9 +31,8 @@ export default function ImportMap(props: ImportMapProps) {
 
 export function importMapOverridden(): boolean {
   return (
-    Object.keys(
-      (window as any).importMapOverrides.getOverrideMap().imports
-    ).filter((k) => k !== "react" && k !== "react-dom").length > 0
+    Object.keys((window as any).importMapOverrides.getOverrideMap().imports)
+      .length > 0
   );
 }
 

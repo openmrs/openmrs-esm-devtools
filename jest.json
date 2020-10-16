@@ -6,8 +6,7 @@
   "moduleNameMapper": {
     "\\.css$": "<rootDir>/__mocks__/css-mock.tsx",
     "@openmrs/esm-api": "<rootDir>/__mocks__/openmrs-esm-api.mock.tsx",
-    "@openmrs/esm-config": "<rootDir>/__mocks__/openmrs-esm-module-config.mock.ts",
-    "lodash-es": "lodash"
+    "@openmrs/esm-config": "<rootDir>/__mocks__/openmrs-esm-module-config.mock.ts"
   },
   "globals": {
     "System": {
